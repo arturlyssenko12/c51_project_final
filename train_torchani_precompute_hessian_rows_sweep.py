@@ -321,10 +321,9 @@ def main():
                 opt.step()
                 ema_model.update_parameters(model)
 
-            # se, sf, sh = evaluate(val_loader, ema_model.module, HESS_ROWS) # Pass HESS_ROWS
-            # val_loss_total = (se + sf + sh) / len(val_loader.dataset)
-            # sched.step(val_loss_total)
-            sched.step(loss)
+            se, sf, sh = evaluate(val_loader, ema_model.module, HESS_ROWS) # Pass HESS_ROWS
+            val_loss_total = (se + sf + sh) / len(val_loader.dataset)
+            sched.step(val_loss_total)
 
         elapsed = time.time() - start_time
         avg_it_s = total_batches / elapsed if elapsed > 0 else 0
